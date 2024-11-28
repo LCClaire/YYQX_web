@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Word Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% if game_over %}
+            {% if success %}
+                <h2><strong>{{ message }}</strong></h2>
+                    <!-- 如果成功，显示 GIF -->
+        <!--            <img src="{{ url_for('static', filename='DreamBig_v5.png') }}" alt="Dream Big Image">-->
+                <img src="/static/{{ chosen_image }}" class="success-image" alt="Congratulations Image" style="width:800px;" onerror="this.src='/static/success.gif';">>
+        <!--            <p><a href="{{ url_for('restart') }}">Play Again</a></p>-->
+                <a href="{{ url_for('restart') }}" class="play-again">Play Again</a> <!-- 添加链接按钮 -->
+            {% else %}
+                <h2><strong>{{ message }}</strong></h2>
+                <a href="{{ url_for('restart') }}">Try Again</a>
+            {% endif %}
+        {% else %}
+            <h1>Let's play the "Guess the Word Game!"</h1>
+            <p>Here's the sentence to guess:</p>
+            <p style="font-size: 1.5em; letter-spacing: 0.1em;">{{ word_empty|safe }}</p>
+
+         <!-- 显示已猜过的字母 -->
+            <p>Guessed letters: <strong>{{ guessed_letters }}</strong></p>
+
+            <form method="POST">
+                <label for="guess">Guess one letter:</label>
+                <input type="text" id="guess" name="guess" maxlength="1" required>
+                <button type="submit">Submit</button>
+            </form>
+            <p>You still have {{ attempts_left }} attempts.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
