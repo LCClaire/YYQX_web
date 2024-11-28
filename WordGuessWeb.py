@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import random
 import text
+import os
+
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # 用于安全的 session 数据存储
@@ -75,6 +77,8 @@ def restart():
     session.clear()  # 清除所有 session 数据
     return redirect(url_for("index"))
 
+
 if __name__ == "__main__":
-    # app.run()
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # 从环境变量获取端口号，默认是 5000
+    app.run(host="0.0.0.0", port=port)       # 绑定到 0.0.0.0
+    # app.run(debug=False)
